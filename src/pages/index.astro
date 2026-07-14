@@ -119,12 +119,6 @@ const i18n = {
   },
   heroCta: { ca: "Demana cita per WhatsApp", es: "Pide cita por WhatsApp" },
   heroTrust: { ca: "5,0/5 — 66 ressenyes a Google", es: "5,0/5 — 66 reseñas en Google" },
-  manifestoPre: {
-    ca: "No tractem lesions. Tractem persones que volen tornar a pujar a Collserola en bici, a jugar amb els fills a terra o a dormir ",
-    es: "No tratamos lesiones. Tratamos a personas que quieren volver a subir a Collserola en bici, a jugar con sus hijos en el suelo o a dormir ",
-  },
-  manifestoStrong: { ca: "sense dolor", es: "sin dolor" },
-  manifestoPost: { ca: " — i les acompanyem fins que ho aconsegueixen.", es: " — y las acompañamos hasta que lo consiguen." },
   treatH: { ca: "Què tractem", es: "Qué tratamos" },
   treatP: {
     ca: "De la primera molèstia a la tornada a l'esport, amb la tècnica que li toca a cada teixit.",
@@ -220,13 +214,6 @@ const i18n = {
           <a class="btn btn--ghost" href={TEL}>664 76 25 70</a>
         </div>
         <p class="hero__trust"><span class="hero__stars" aria-hidden="true">★★★★★</span> <span {...tr(i18n.heroTrust)}>{i18n.heroTrust.ca}</span></p>
-      </div>
-    </section>
-
-    <!-- ░░ MANIFEST ░░ -->
-    <section class="manifesto">
-      <div class="wrap wrap--narrow" data-reveal>
-        <p class="manifesto__text"><span {...tr(i18n.manifestoPre)}>{i18n.manifestoPre.ca}</span><strong {...tr(i18n.manifestoStrong)}>{i18n.manifestoStrong.ca}</strong><span {...tr(i18n.manifestoPost)}>{i18n.manifestoPost.ca}</span></p>
       </div>
     </section>
 
@@ -574,11 +561,6 @@ const i18n = {
     .hero__trust { margin-top: 1.6rem; font-size: var(--step--1); color: color-mix(in oklch, var(--paper) 85%, transparent); }
     .hero__stars { color: var(--gold); letter-spacing: 0.1em; margin-right: 0.4rem; }
 
-    /* ── Manifest ──────────────────────────────────────────── */
-    .manifesto { padding-block: clamp(4rem, 8vw, 7rem); background: var(--pine-900); color: var(--paper); }
-    .manifesto__text { text-align: center; font-family: var(--display); font-style: italic; font-size: var(--step-3); font-weight: 500; line-height: 1.25; }
-    .manifesto__text strong { font-style: normal; color: var(--coral); font-weight: 600; }
-
     /* ── Section head genérico ─────────────────────────────── */
     .sec-head { max-width: 50ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
     .sec-head h2 { font-size: var(--step-4); }
@@ -600,7 +582,7 @@ const i18n = {
     .treat__list h3 { font-size: var(--step-1); font-weight: 700; margin-bottom: 0.4rem; }
     .treat__list p { color: var(--muted); max-width: 62ch; }
 
-    .treat__photo { margin-top: clamp(2.5rem, 5vw, 4rem); max-width: 640px; border-radius: calc(var(--radius) * 3); overflow: clip; }
+    .treat__photo { margin: clamp(2.5rem, 5vw, 4rem) auto 0; max-width: 640px; border-radius: calc(var(--radius) * 3); overflow: clip; }
     .treat__photo img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
     .treat__photo figcaption { padding: 0.9rem 1.1rem; background: var(--pine-950); color: var(--paper); font-size: var(--step--1); font-weight: 600; }
 
@@ -624,9 +606,10 @@ const i18n = {
 
     /* ── Opinions ──────────────────────────────────────────── */
     .reviews { padding-block: clamp(4rem, 9vw, 7rem); }
-    .reviews__stat { display: flex; align-items: center; gap: 1.4rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+    .reviews__stat { display: flex; justify-content: center; align-items: center; gap: 1.4rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); text-align: left; }
     .reviews__score { font-family: var(--display); font-weight: 700; font-size: clamp(3.4rem, 8vw, 5.2rem); color: var(--pine-800); line-height: 1; }
     .reviews__stat p { font-size: var(--step--1); color: var(--muted); margin-top: 0.2rem; }
+    @media (max-width: 480px) { .reviews__stat { flex-wrap: wrap; justify-content: center; text-align: center; } }
     .reviews__list { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.2rem); }
     .reviews__list li { border-top: 2px solid var(--coral); padding-top: 1.2rem; }
     .reviews__q { font-family: var(--display); font-style: italic; font-size: var(--step-1); line-height: 1.4; }
@@ -644,7 +627,7 @@ const i18n = {
 
     /* ── Contacte ──────────────────────────────────────────── */
     .contact { padding-block: clamp(4rem, 9vw, 7rem); }
-    .contact__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); }
+    .contact__grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: start; gap: clamp(2.5rem, 6vw, 5rem); }
     .contact__intro h2 { font-size: var(--step-4); }
     .contact__lede { color: var(--muted); font-size: var(--step-1); margin-top: 1.2rem; max-width: 40ch; }
     .contact__wa { margin-top: 2rem; }
@@ -660,6 +643,7 @@ const i18n = {
     .contact__form input:focus-visible, .contact__form textarea:focus-visible { outline: 2px solid var(--coral); outline-offset: 1px; }
     .contact__form button { align-self: flex-start; }
     .contact__info { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; padding: clamp(1.6rem, 3vw, 2.2rem); background: var(--pine-950); color: var(--paper); border-radius: calc(var(--radius) * 3); }
+    @media (min-width: 901px) { .contact__info { position: sticky; top: 6rem; } }
     .contact__info li { font-size: var(--step--1); color: color-mix(in oklch, var(--paper) 85%, transparent); }
     .contact__info span { display: block; font-weight: 700; color: var(--paper); margin-bottom: 0.2rem; }
     .contact__info a { color: var(--coral); font-weight: 700; }
