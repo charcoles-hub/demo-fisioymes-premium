@@ -11,52 +11,164 @@ const WA = "https://wa.me/34664762570?text=Hola%20FisioyM%C3%A9s%2C%20voldria%20
 const TEL = "tel:+34664762570";
 const MAIL = "mailto:info@fisioymes.com";
 
+// Petit helper d'i18n: converteix {ca, es} en els data-attributes que
+// llegeix l'script del selector d'idioma per intercanviar el text.
+const tr = (pair: { ca: string; es: string }) => ({ "data-ca-text": pair.ca, "data-es-text": pair.es });
+
+const navLinks = [
+  { href: "#tractaments", ca: "Tractaments", es: "Tratamientos" },
+  { href: "#equip", ca: "Equip", es: "Equipo" },
+  { href: "#clinica", ca: "La Clínica", es: "La Clínica" },
+  { href: "#preus", ca: "Preus", es: "Precios" },
+  { href: "#opinions", ca: "Opinions", es: "Opiniones" },
+  { href: "#contacte", ca: "Contacte", es: "Contacto" },
+];
+const footLinks = navLinks.filter((l) => l.href !== "#opinions");
+
 const generalList = [
-  "Cervicàlgies", "Dorsàlgies", "Lumbàlgies", "Radiculopaties", "Hèrnies discals",
-  "Migranyes i cefalees tensionals", "Rigidesa articular", "Tendinopaties",
-  "Sobrecàrregues musculars", "Trencaments musculars", "Limfedema", "Punts gallet",
-  "Disfuncions del sòl pelvià", "ATM", "Rehabilitació postquirúrgica",
+  { ca: "Cervicàlgies", es: "Cervicalgias" },
+  { ca: "Dorsàlgies", es: "Dorsalgias" },
+  { ca: "Lumbàlgies", es: "Lumbalgias" },
+  { ca: "Radiculopaties", es: "Radiculopatías" },
+  { ca: "Hèrnies discals", es: "Hernias discales" },
+  { ca: "Migranyes i cefalees tensionals", es: "Migrañas y cefaleas tensionales" },
+  { ca: "Rigidesa articular", es: "Rigidez articular" },
+  { ca: "Tendinopaties", es: "Tendinopatías" },
+  { ca: "Sobrecàrregues musculars", es: "Sobrecargas musculares" },
+  { ca: "Trencaments musculars", es: "Roturas musculares" },
+  { ca: "Limfedema", es: "Linfedema" },
+  { ca: "Punts gallet", es: "Puntos gatillo" },
+  { ca: "Disfuncions del sòl pelvià", es: "Disfunciones del suelo pélvico" },
+  { ca: "ATM", es: "ATM" },
+  { ca: "Rehabilitació postquirúrgica", es: "Rehabilitación postquirúrgica" },
 ];
 
 const otherAreas = [
   {
-    t: "Teràpia manual i tecnologia",
-    d: "Massatge descontracturant, esportiu, relaxant i drenatge limfàtic. Punció seca, electròlisi percutània (EPI), radiofreqüència / tecarteràpia, magnetoteràpia i ultrasons — la tècnica es tria segons el teixit, no a l'inrevés.",
+    t: { ca: "Teràpia manual i tecnologia", es: "Terapia manual y tecnología" },
+    d: {
+      ca: "Massatge descontracturant, esportiu, relaxant i drenatge limfàtic. Punció seca, electròlisi percutània (EPI), radiofreqüència / tecarteràpia, magnetoteràpia i ultrasons — la tècnica es tria segons el teixit, no a l'inrevés.",
+      es: "Masaje descontracturante, deportivo, relajante y drenaje linfático. Punción seca, electrólisis percutánea (EPI), radiofrecuencia / tecarterapia, magnetoterapia y ultrasonidos — la técnica se elige según el tejido, no al revés.",
+    },
   },
   {
-    t: "Fisioteràpia esportiva",
-    d: "Readaptació després d'una lesió i prevenció abans que arribi: força, mobilitat i control del gest per tornar a competir o simplement a córrer per Collserola sense por a la recaiguda.",
+    t: { ca: "Fisioteràpia esportiva", es: "Fisioterapia deportiva" },
+    d: {
+      ca: "Readaptació després d'una lesió i prevenció abans que arribi: força, mobilitat i control del gest per tornar a competir o simplement a córrer per Collserola sense por a la recaiguda.",
+      es: "Readaptación tras una lesión y prevención antes de que llegue: fuerza, movilidad y control del gesto para volver a competir o simplemente a correr por Collserola sin miedo a la recaída.",
+    },
   },
   {
-    t: "Pilates terapèutic i entrenament personal",
-    d: "Classes reduïdes centrades en control postural i sòl pelvià. La primera classe és de prova i no es cobra — així ho comproves abans de decidir.",
+    t: { ca: "Pilates terapèutic i entrenament personal", es: "Pilates terapéutico y entrenamiento personal" },
+    d: {
+      ca: "Classes reduïdes centrades en control postural i sòl pelvià. La primera classe és de prova i no es cobra — així ho comproves abans de decidir.",
+      es: "Clases reducidas centradas en el control postural y el suelo pélvico. La primera clase es de prueba y no se cobra — así lo compruebas antes de decidir.",
+    },
   },
 ];
 
 const team = [
-  { name: "Rodrigo Evangelisti", role: "Fisioteràpia esportiva i invasiva, fisioestètica i readaptació esportiva." },
-  { name: "Diana", role: "Fisioterapeuta a l'equip de FisioyMés." },
-  { name: "Laia Costa", role: "Fisioterapeuta a l'equip de FisioyMés." },
+  { name: "Rodrigo Evangelisti", role: { ca: "Fisioteràpia esportiva i invasiva, fisioestètica i readaptació esportiva.", es: "Fisioterapia deportiva e invasiva, fisioestética y readaptación deportiva." } },
+  { name: "Diana", role: { ca: "Fisioterapeuta a l'equip de FisioyMés.", es: "Fisioterapeuta en el equipo de FisioyMés." } },
+  { name: "Laia Costa", role: { ca: "Fisioterapeuta a l'equip de FisioyMés.", es: "Fisioterapeuta en el equipo de FisioyMés." } },
 ];
 
 const testimonials = [
-  { q: "Vaig arribar amb una fractura de colze i una recuperació que la pròpia traumatòloga donava per llarga. Amb FisioyMés vaig recuperar mobilitat molt abans del que ningú esperava.", a: "Recuperació postquirúrgica de colze" },
-  { q: "Et tracten com a casa: ambient càlid i familiar des del primer dia, però amb un nivell de professionalitat que es nota en cada sessió.", a: "Pacient habitual de fisioteràpia general" },
-  { q: "Com FisioyMés no n'hi ha cap altre a Sant Cugat.", a: "Ressenya a Google" },
+  {
+    q: {
+      ca: "Vaig arribar amb una fractura de colze i una recuperació que la pròpia traumatòloga donava per llarga. Amb FisioyMés vaig recuperar mobilitat molt abans del que ningú esperava.",
+      es: "Llegué con una fractura de codo y una recuperación que la propia traumatóloga daba por larga. Con FisioyMés recuperé movilidad mucho antes de lo que nadie esperaba.",
+    },
+    a: { ca: "Recuperació postquirúrgica de colze", es: "Recuperación postquirúrgica de codo" },
+  },
+  {
+    q: {
+      ca: "Et tracten com a casa: ambient càlid i familiar des del primer dia, però amb un nivell de professionalitat que es nota en cada sessió.",
+      es: "Te tratan como en casa: ambiente cálido y familiar desde el primer día, pero con un nivel de profesionalidad que se nota en cada sesión.",
+    },
+    a: { ca: "Pacient habitual de fisioteràpia general", es: "Paciente habitual de fisioterapia general" },
+  },
+  {
+    q: { ca: "Com FisioyMés no n'hi ha cap altre a Sant Cugat.", es: "Como FisioyMés no hay ningún otro en Sant Cugat." },
+    a: { ca: "Ressenya a Google", es: "Reseña en Google" },
+  },
 ];
 
 const prices = [
-  { t: "Sessió de fisioteràpia", d: "30 minuts.", p: "39 €" },
-  { t: "Sessió de fisioteràpia", d: "50 minuts.", p: "55 €" },
-  { t: "Bo de sessions", d: "3 / 5 / 10 sessions.", p: "-6% / -10% / -15%" },
-  { t: "Pilates individual", d: "1 o 2 classes per setmana.", p: "45 € / 70 € classe" },
-  { t: "Pilates en grup", d: "1 o 2 classes per setmana.", p: "60 € / 90 € mes" },
-  { t: "Primera classe de Pilates", d: "Perquè el provis sense compromís.", p: "Gratuïta" },
+  { t: { ca: "Sessió de fisioteràpia", es: "Sesión de fisioterapia" }, d: { ca: "30 minuts.", es: "30 minutos." }, p: { ca: "39 €", es: "39 €" } },
+  { t: { ca: "Sessió de fisioteràpia", es: "Sesión de fisioterapia" }, d: { ca: "50 minuts.", es: "50 minutos." }, p: { ca: "55 €", es: "55 €" } },
+  { t: { ca: "Bo de sessions", es: "Bono de sesiones" }, d: { ca: "3 / 5 / 10 sessions.", es: "3 / 5 / 10 sesiones." }, p: { ca: "-6% / -10% / -15%", es: "-6% / -10% / -15%" } },
+  { t: { ca: "Pilates individual", es: "Pilates individual" }, d: { ca: "1 o 2 classes per setmana.", es: "1 o 2 clases por semana." }, p: { ca: "45 € / 70 € classe", es: "45 € / 70 € clase" } },
+  { t: { ca: "Pilates en grup", es: "Pilates en grupo" }, d: { ca: "1 o 2 classes per setmana.", es: "1 o 2 clases por semana." }, p: { ca: "60 € / 90 € mes", es: "60 € / 90 € mes" } },
+  { t: { ca: "Primera classe de Pilates", es: "Primera clase de Pilates" }, d: { ca: "Perquè el provis sense compromís.", es: "Para que la pruebes sin compromiso." }, p: { ca: "Gratuïta", es: "Gratuita" } },
 ];
+
+const clinicFacilities = [
+  { ca: "Sala de Pilates", es: "Sala de Pilates" },
+  { ca: "Gimnàs", es: "Gimnasio" },
+  { ca: "Sales de tractament individual", es: "Salas de tratamiento individual" },
+];
+
+const i18n = {
+  skip: { ca: "Saltar a demanar cita", es: "Saltar a pedir cita" },
+  heroPre: { ca: "Fisioteràpia que et torna al", es: "Fisioterapia que te devuelve al" },
+  heroEm: { ca: "moviment", es: "movimiento" },
+  heroLede: {
+    ca: "Tractament personalitzat a Sant Cugat del Vallès: fisioteràpia general i esportiva, massatge terapèutic i pilates. El mateix equip, de la primera visita fins que tornes a fer el que t'agrada.",
+    es: "Tratamiento personalizado en Sant Cugat del Vallès: fisioterapia general y deportiva, masaje terapéutico y pilates. El mismo equipo, desde la primera visita hasta que vuelvas a hacer lo que te gusta.",
+  },
+  heroCta: { ca: "Demana cita per WhatsApp", es: "Pide cita por WhatsApp" },
+  heroTrust: { ca: "5,0/5 — 66 ressenyes a Google", es: "5,0/5 — 66 reseñas en Google" },
+  manifestoPre: {
+    ca: "No tractem lesions. Tractem persones que volen tornar a pujar a Collserola en bici, a jugar amb els fills a terra o a dormir ",
+    es: "No tratamos lesiones. Tratamos a personas que quieren volver a subir a Collserola en bici, a jugar con sus hijos en el suelo o a dormir ",
+  },
+  manifestoStrong: { ca: "sense dolor", es: "sin dolor" },
+  manifestoPost: { ca: " — i les acompanyem fins que ho aconsegueixen.", es: " — y las acompañamos hasta que lo consiguen." },
+  treatH: { ca: "Què tractem", es: "Qué tratamos" },
+  treatP: {
+    ca: "De la primera molèstia a la tornada a l'esport, amb la tècnica que li toca a cada teixit.",
+    es: "Desde la primera molestia hasta la vuelta al deporte, con la técnica que le corresponde a cada tejido.",
+  },
+  treatFeaturedH: { ca: "Fisioteràpia general", es: "Fisioterapia general" },
+  photoCaption: { ca: "Pilates terapèutic — primera classe gratuïta.", es: "Pilates terapéutico — primera clase gratuita." },
+  teamH: { ca: "Qui et tractarà", es: "Quién te tratará" },
+  teamP: {
+    ca: "L'ambient càlid i familiar que els pacients destaquen a les ressenyes, sessió rere sessió.",
+    es: "El ambiente cálido y familiar que los pacientes destacan en las reseñas, sesión tras sesión.",
+  },
+  teamMore: { ca: "+ la resta de l'equip de FisioyMés, a Carrer Xerric 4.", es: "+ el resto del equipo de FisioyMés, en Carrer Xerric 4." },
+  clinicH: { ca: "La Clínica", es: "La Clínica" },
+  clinicText: {
+    ca: "Fa més d'una dècada que acompanyem pacients a Sant Cugat del Vallès combinant l'experiència acumulada amb tècniques actualitzades. Cada tractament s'adapta a la persona — no a l'inrevés — perquè la recuperació sigui eficaç i es noti des de la primera visita.",
+    es: "Llevamos más de una década acompañando a pacientes en Sant Cugat del Vallès combinando la experiencia acumulada con técnicas actualizadas. Cada tratamiento se adapta a la persona — no al revés — para que la recuperación sea eficaz y se note desde la primera visita.",
+  },
+  reviewsCount: { ca: "66 ressenyes a Google", es: "66 reseñas en Google" },
+  reviewsSr: { ca: "Opinions dels pacients", es: "Opiniones de los pacientes" },
+  pricesH: { ca: "Preus", es: "Precios" },
+  pricesPre: { ca: "Les nostres tarifes, clares des del primer dia. ", es: "Nuestras tarifas, claras desde el primer día. " },
+  pricesStrong: { ca: "Descomptes per bo de sessions", es: "Descuentos por bono de sesiones" },
+  pricesPost: { ca: " si fas seguiment continuat.", es: " si haces seguimiento continuado." },
+  contactH: { ca: "Demana la teva cita.", es: "Pide tu cita." },
+  contactLede: { ca: "Escriu-nos per WhatsApp i et diem quan tenim hora disponible.", es: "Escríbenos por WhatsApp y te decimos cuándo tenemos hora disponible." },
+  contactWaBtn: { ca: "Escriu-nos per WhatsApp", es: "Escríbenos por WhatsApp" },
+  orDivider: { ca: "o", es: "o" },
+  formName: { ca: "Nom", es: "Nombre" },
+  formEmail: { ca: "Email", es: "Email" },
+  formMsg: { ca: "Missatge", es: "Mensaje" },
+  formSend: { ca: "Enviar", es: "Enviar" },
+  addrLabel: { ca: "Adreça", es: "Dirección" },
+  hoursLabel: { ca: "Horari", es: "Horario" },
+  phoneLabel: { ca: "Telèfon", es: "Teléfono" },
+  emailLabel: { ca: "Email", es: "Email" },
+  hoursValue: { ca: "Dl–Dj 9–21 h · Dv 9–20 h · Ds 10–14 h", es: "Lu–Ju 9–21 h · Vi 9–20 h · Sá 10–14 h" },
+  footTag: { ca: "Fisioteràpia a Sant Cugat del Vallès. 5,0★ sobre 66 ressenyes a Google.", es: "Fisioterapia en Sant Cugat del Vallès. 5,0★ sobre 66 reseñas en Google." },
+  footDemo: { ca: "Pàgina de demostració a mida — no és el lloc web oficial.", es: "Página de demostración a medida — no es el sitio web oficial." },
+};
 ---
 
 <Layout>
-  <a class="skip" href="#contacte">Saltar a demanar cita</a>
+  <a class="skip" href="#contacte" {...tr(i18n.skip)}>{i18n.skip.ca}</a>
 
   <header class="nav" data-nav>
     <div class="wrap nav__row">
@@ -64,13 +176,16 @@ const prices = [
         <span class="brand__mark" aria-hidden="true"></span>
         <span class="brand__word">FisioyMés</span>
       </a>
-      <nav class="nav__links" aria-label="Principal">
-        <a href="#tractaments">Tractaments</a>
-        <a href="#equip">Equip</a>
-        <a href="#preus">Preus</a>
-        <a href="#opinions">Opinions</a>
-        <a href="#contacte">Contacte</a>
+      <nav class="nav__links" id="primary-nav" aria-label="Principal">
+        {navLinks.map((l) => <a href={l.href} data-ca-text={l.ca} data-es-text={l.es}>{l.ca}</a>)}
+        <div class="lang-toggle" role="group" aria-label="Idioma">
+          <button type="button" class="lang-btn" data-lang-btn="ca" aria-pressed="true">CA</button>
+          <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="false">ES</button>
+        </div>
       </nav>
+      <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Obrir el menú">
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
       <a class="btn btn--solid nav__cta" href={WA} target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.7 14.2c-.2.6-1.4 1.2-2 1.3-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .9 2.1.1.2.1.4 0 .6-.4.8-.8.8-.5 1.3.9 1.7 1.8 2.3 3.2 3 .2.1.4.1.5-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.9-.1 1.4Z"/></svg>
         WhatsApp
@@ -96,20 +211,22 @@ const prices = [
       </svg>
 
       <div class="wrap hero__inner">
-        <h1 id="hero-title" class="hero__title">Fisioteràpia que et torna al <em>moviment</em>.</h1>
-        <p class="hero__lede">Tractament personalitzat a Sant Cugat del Vallès: fisioteràpia general i esportiva, massatge terapèutic i pilates. El mateix equip, de la primera visita fins que tornes a fer el que t'agrada.</p>
+        <h1 id="hero-title" class="hero__title">
+          <span {...tr(i18n.heroPre)}>{i18n.heroPre.ca}</span> <em {...tr(i18n.heroEm)}>{i18n.heroEm.ca}</em>.
+        </h1>
+        <p class="hero__lede" {...tr(i18n.heroLede)}>{i18n.heroLede.ca}</p>
         <div class="hero__actions">
-          <a class="btn btn--solid" href={WA} target="_blank" rel="noopener">Demana cita per WhatsApp</a>
+          <a class="btn btn--solid" href={WA} target="_blank" rel="noopener" {...tr(i18n.heroCta)}>{i18n.heroCta.ca}</a>
           <a class="btn btn--ghost" href={TEL}>664 76 25 70</a>
         </div>
-        <p class="hero__trust"><span class="hero__stars" aria-hidden="true">★★★★★</span> 5,0/5 — 66 ressenyes a Google</p>
+        <p class="hero__trust"><span class="hero__stars" aria-hidden="true">★★★★★</span> <span {...tr(i18n.heroTrust)}>{i18n.heroTrust.ca}</span></p>
       </div>
     </section>
 
     <!-- ░░ MANIFEST ░░ -->
     <section class="manifesto">
       <div class="wrap wrap--narrow" data-reveal>
-        <p class="manifesto__text">No tractem lesions. Tractem persones que volen tornar a pujar a Collserola en bici, a jugar amb els fills a terra o a dormir <strong>sense dolor</strong> — i les acompanyem fins que ho aconsegueixen.</p>
+        <p class="manifesto__text"><span {...tr(i18n.manifestoPre)}>{i18n.manifestoPre.ca}</span><strong {...tr(i18n.manifestoStrong)}>{i18n.manifestoStrong.ca}</strong><span {...tr(i18n.manifestoPost)}>{i18n.manifestoPost.ca}</span></p>
       </div>
     </section>
 
@@ -119,14 +236,14 @@ const prices = [
     <section class="treat" id="tractaments" aria-labelledby="treat-h">
       <div class="wrap">
         <header class="sec-head" data-reveal>
-          <h2 id="treat-h">Què tractem</h2>
-          <p>De la primera molèstia a la tornada a l'esport, amb la tècnica que li toca a cada teixit.</p>
+          <h2 id="treat-h" {...tr(i18n.treatH)}>{i18n.treatH.ca}</h2>
+          <p {...tr(i18n.treatP)}>{i18n.treatP.ca}</p>
         </header>
 
         <div class="treat__featured" data-reveal>
-          <h3>Fisioteràpia general</h3>
+          <h3 {...tr(i18n.treatFeaturedH)}>{i18n.treatFeaturedH.ca}</h3>
           <ul class="treat__pills">
-            {generalList.map((item) => <li>{item}</li>)}
+            {generalList.map((item) => <li {...tr(item)}>{item.ca}</li>)}
           </ul>
         </div>
 
@@ -135,8 +252,8 @@ const prices = [
             <li data-reveal>
               <span class="treat__mark" aria-hidden="true"></span>
               <div>
-                <h3>{area.t}</h3>
-                <p>{area.d}</p>
+                <h3 {...tr(area.t)}>{area.t.ca}</h3>
+                <p {...tr(area.d)}>{area.d.ca}</p>
               </div>
             </li>
           ))}
@@ -144,7 +261,7 @@ const prices = [
 
         <figure class="treat__photo" data-reveal>
           <img src={img(PILATES_IMG, 1400)} srcset={`${img(PILATES_IMG, 800)} 800w, ${img(PILATES_IMG, 1400)} 1400w`} sizes="(max-width: 800px) 100vw, 640px" alt="Exercici de pilates terapèutic sobre reformer, treballant control i estirament." loading="lazy" />
-          <figcaption>Pilates terapèutic — primera classe gratuïta.</figcaption>
+          <figcaption {...tr(i18n.photoCaption)}>{i18n.photoCaption.ca}</figcaption>
         </figure>
       </div>
     </section>
@@ -153,8 +270,8 @@ const prices = [
     <section class="team" id="equip" aria-labelledby="team-h">
       <div class="wrap">
         <header class="sec-head sec-head--light" data-reveal>
-          <h2 id="team-h">Qui et tractarà</h2>
-          <p>L'ambient càlid i familiar que els pacients destaquen a les ressenyes, sessió rere sessió.</p>
+          <h2 id="team-h" {...tr(i18n.teamH)}>{i18n.teamH.ca}</h2>
+          <p {...tr(i18n.teamP)}>{i18n.teamP.ca}</p>
         </header>
         <ul class="team__list">
           {team.map((p) => (
@@ -162,12 +279,23 @@ const prices = [
               <span class="team__avatar" aria-hidden="true">{p.name.slice(0, 1)}</span>
               <div>
                 <h3>{p.name}</h3>
-                <p>{p.role}</p>
+                <p {...tr(p.role)}>{p.role.ca}</p>
               </div>
             </li>
           ))}
         </ul>
-        <p class="team__more" data-reveal>+ la resta de l'equip de FisioyMés, a Carrer Xerric 4.</p>
+        <p class="team__more" data-reveal {...tr(i18n.teamMore)}>{i18n.teamMore.ca}</p>
+      </div>
+    </section>
+
+    <!-- ░░ LA CLÍNICA ░░ -->
+    <section class="clinic" id="clinica" aria-labelledby="clinica-h">
+      <div class="wrap wrap--narrow" data-reveal>
+        <h2 id="clinica-h" {...tr(i18n.clinicH)}>{i18n.clinicH.ca}</h2>
+        <p class="clinic__text" {...tr(i18n.clinicText)}>{i18n.clinicText.ca}</p>
+        <ul class="treat__pills clinic__facilities">
+          {clinicFacilities.map((f) => <li {...tr(f)}>{f.ca}</li>)}
+        </ul>
       </div>
     </section>
 
@@ -178,15 +306,15 @@ const prices = [
           <p class="reviews__score">5,0</p>
           <div>
             <span class="hero__stars" aria-hidden="true">★★★★★</span>
-            <p>66 ressenyes a Google</p>
+            <p {...tr(i18n.reviewsCount)}>{i18n.reviewsCount.ca}</p>
           </div>
         </div>
-        <h2 id="reviews-h" class="sr-only">Opinions dels pacients</h2>
+        <h2 id="reviews-h" class="sr-only" {...tr(i18n.reviewsSr)}>{i18n.reviewsSr.ca}</h2>
         <ul class="reviews__list">
           {testimonials.map((t) => (
             <li data-reveal>
-              <p class="reviews__q">&ldquo;{t.q}&rdquo;</p>
-              <p class="reviews__a">{t.a}</p>
+              <p class="reviews__q">&ldquo;<span {...tr(t.q)}>{t.q.ca}</span>&rdquo;</p>
+              <p class="reviews__a" {...tr(t.a)}>{t.a.ca}</p>
             </li>
           ))}
         </ul>
@@ -199,17 +327,17 @@ const prices = [
     <section class="prices" id="preus" aria-labelledby="prices-h">
       <div class="wrap">
         <header class="sec-head" data-reveal>
-          <h2 id="prices-h">Preus</h2>
-          <p>Les nostres tarifes, clares des del primer dia. <strong>Descomptes per bo de sessions</strong> si fas seguiment continuat.</p>
+          <h2 id="prices-h" {...tr(i18n.pricesH)}>{i18n.pricesH.ca}</h2>
+          <p><span {...tr(i18n.pricesPre)}>{i18n.pricesPre.ca}</span><strong {...tr(i18n.pricesStrong)}>{i18n.pricesStrong.ca}</strong><span {...tr(i18n.pricesPost)}>{i18n.pricesPost.ca}</span></p>
         </header>
         <ul class="price-list">
           {prices.map((row) => (
             <li data-reveal>
               <div>
-                <h3>{row.t}</h3>
-                <p>{row.d}</p>
+                <h3 {...tr(row.t)}>{row.t.ca}</h3>
+                <p {...tr(row.d)}>{row.d.ca}</p>
               </div>
-              <span class="price-list__p">{row.p}</span>
+              <span class="price-list__p" {...tr(row.p)}>{row.p.ca}</span>
             </li>
           ))}
         </ul>
@@ -220,18 +348,36 @@ const prices = [
     <section class="contact" id="contacte" aria-labelledby="contact-h">
       <div class="wrap contact__grid">
         <div class="contact__intro" data-reveal>
-          <h2 id="contact-h">Demana la teva cita.</h2>
-          <p class="contact__lede">Escriu-nos per WhatsApp i et diem quan tenim hora disponible.</p>
+          <h2 id="contact-h" {...tr(i18n.contactH)}>{i18n.contactH.ca}</h2>
+          <p class="contact__lede" {...tr(i18n.contactLede)}>{i18n.contactLede.ca}</p>
           <a class="btn btn--solid contact__wa" href={WA} target="_blank" rel="noopener">
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.7 14.2c-.2.6-1.4 1.2-2 1.3-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .9 2.1.1.2.1.4 0 .6-.4.8-.8.8-.5 1.3.9 1.7 1.8 2.3 3.2 3 .2.1.4.1.5-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.2.1.9-.1 1.4Z"/></svg>
-            Escriu-nos per WhatsApp
+            <span {...tr(i18n.contactWaBtn)}>{i18n.contactWaBtn.ca}</span>
           </a>
+
+          <div class="contact__divider" role="separator"><span {...tr(i18n.orDivider)}>{i18n.orDivider.ca}</span></div>
+
+          <form class="contact__form" data-contact-form novalidate>
+            <div class="field">
+              <label for="cf-name" {...tr(i18n.formName)}>{i18n.formName.ca}</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="cf-email" {...tr(i18n.formEmail)}>{i18n.formEmail.ca}</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="cf-msg" {...tr(i18n.formMsg)}>{i18n.formMsg.ca}</label>
+              <textarea id="cf-msg" name="message" rows="3" required></textarea>
+            </div>
+            <button class="btn btn--ghost" type="submit" {...tr(i18n.formSend)}>{i18n.formSend.ca}</button>
+          </form>
         </div>
         <ul class="contact__info">
-          <li><span>Adreça</span> Carrer Xerric 4, Local 1 · Sant Cugat del Vallès</li>
-          <li><span>Horari</span> Dl–Dj 9–21 h · Dv 9–20 h · Ds 10–14 h</li>
-          <li><span>Telèfon</span> <a href={TEL}>664 76 25 70</a></li>
-          <li><span>Email</span> <a href={MAIL}>info@fisioymes.com</a></li>
+          <li><span {...tr(i18n.addrLabel)}>{i18n.addrLabel.ca}</span> Carrer Xerric 4, Local 1 · Sant Cugat del Vallès</li>
+          <li><span {...tr(i18n.hoursLabel)}>{i18n.hoursLabel.ca}</span> <span {...tr(i18n.hoursValue)}>{i18n.hoursValue.ca}</span></li>
+          <li><span {...tr(i18n.phoneLabel)}>{i18n.phoneLabel.ca}</span> <a href={TEL}>664 76 25 70</a></li>
+          <li><span {...tr(i18n.emailLabel)}>{i18n.emailLabel.ca}</span> <a href={MAIL}>info@fisioymes.com</a></li>
         </ul>
       </div>
     </section>
@@ -244,13 +390,18 @@ const prices = [
           <span class="brand__mark" aria-hidden="true"></span>
           <span class="brand__word">FisioyMés</span>
         </a>
-        <p class="foot__tag">Fisioteràpia a Sant Cugat del Vallès. 5,0★ sobre 66 ressenyes a Google.</p>
+        <p class="foot__tag" {...tr(i18n.footTag)}>{i18n.footTag.ca}</p>
+        <div class="foot__social">
+          <a href="https://www.facebook.com/fisioymes/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 9H15V6h-1.5C11.6 6 10 7.6 10 9.5V11H8v3h2v7h3v-7h2.1l.4-3H13v-1.2c0-.5.3-.8.8-.8Z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/fisioymes/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c-2.7 0-3.06.01-4.12.06-1.06.05-1.79.22-2.43.47a4.9 4.9 0 0 0-1.77 1.15A4.9 4.9 0 0 0 2.53 5.45c-.25.64-.42 1.37-.47 2.43C2.01 8.94 2 9.3 2 12s.01 3.06.06 4.12c.05 1.06.22 1.79.47 2.43.26.66.6 1.22 1.15 1.77.55.55 1.11.9 1.77 1.15.64.25 1.37.42 2.43.47C8.94 21.99 9.3 22 12 22s3.06-.01 4.12-.06c1.06-.05 1.79-.22 2.43-.47a4.9 4.9 0 0 0 1.77-1.15c.55-.55.9-1.11 1.15-1.77.25-.64.42-1.37.47-2.43.05-1.06.06-1.42.06-4.12s-.01-3.06-.06-4.12c-.05-1.06-.22-1.79-.47-2.43a4.9 4.9 0 0 0-1.15-1.77A4.9 4.9 0 0 0 18.55 2.53c-.64-.25-1.37-.42-2.43-.47C15.06 2.01 14.7 2 12 2Zm0 1.8c2.67 0 2.99.01 4.04.06.98.04 1.5.2 1.86.34.47.18.8.4 1.15.75.35.35.57.68.75 1.15.14.36.3.88.34 1.86.05 1.05.06 1.37.06 4.04s-.01 2.99-.06 4.04c-.04.98-.2 1.5-.34 1.86-.18.47-.4.8-.75 1.15-.35.35-.68.57-1.15.75-.36.14-.88.3-1.86.34-1.05.05-1.37.06-4.04.06s-2.99-.01-4.04-.06c-.98-.04-1.5-.2-1.86-.34a3.1 3.1 0 0 1-1.15-.75 3.1 3.1 0 0 1-.75-1.15c-.14-.36-.3-.88-.34-1.86C3.81 14.99 3.8 14.67 3.8 12s.01-2.99.06-4.04c.04-.98.2-1.5.34-1.86.18-.47.4-.8.75-1.15.35-.35.68-.57 1.15-.75.36-.14.88-.3 1.86-.34C9.01 3.81 9.33 3.8 12 3.8Zm0 3.05a5.15 5.15 0 1 0 0 10.3 5.15 5.15 0 0 0 0-10.3Zm0 8.5a3.35 3.35 0 1 1 0-6.7 3.35 3.35 0 0 1 0 6.7Zm5.35-8.7a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z"/></svg>
+          </a>
+        </div>
       </div>
       <nav class="foot__nav" aria-label="Peu">
-        <a href="#tractaments">Tractaments</a>
-        <a href="#equip">Equip</a>
-        <a href="#preus">Preus</a>
-        <a href="#contacte">Contacte</a>
+        {footLinks.map((l) => <a href={l.href} data-ca-text={l.ca} data-es-text={l.es}>{l.ca}</a>)}
       </nav>
       <div class="foot__contact">
         <p>Carrer Xerric 4, Local 1<br />Sant Cugat del Vallès</p>
@@ -259,7 +410,7 @@ const prices = [
     </div>
     <div class="wrap foot__legal">
       <p>© 2026 FisioyMés</p>
-      <p class="foot__demo">Pàgina de demostració a mida — no és el lloc web oficial.</p>
+      <p class="foot__demo" {...tr(i18n.footDemo)}>{i18n.footDemo.ca}</p>
     </div>
   </footer>
 
@@ -269,6 +420,51 @@ const prices = [
       const onScroll = () => nav && nav.classList.toggle("is-stuck", window.scrollY > 24);
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
+
+      const toggle = document.querySelector("[data-nav-toggle]");
+      const links = document.getElementById("primary-nav");
+      if (nav && toggle && links) {
+        const closeMenu = () => {
+          nav.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        };
+        toggle.addEventListener("click", () => {
+          const isOpen = nav.classList.toggle("is-open");
+          toggle.setAttribute("aria-expanded", String(isOpen));
+        });
+        links.addEventListener("click", (e) => { if (e.target.closest("a")) closeMenu(); });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && nav.classList.contains("is-open")) { closeMenu(); toggle.focus(); }
+        });
+      }
+
+      const LANG_KEY = "fym-lang";
+      const langBtns = document.querySelectorAll("[data-lang-btn]");
+      const i18nEls = document.querySelectorAll("[data-ca-text]");
+      function applyLang(lang) {
+        const l = lang === "es" ? "es" : "ca";
+        i18nEls.forEach((el) => { el.textContent = l === "es" ? el.dataset.esText : el.dataset.caText; });
+        document.documentElement.lang = l;
+        langBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.langBtn === l)));
+        try { localStorage.setItem(LANG_KEY, l); } catch (e) {}
+      }
+      langBtns.forEach((b) => b.addEventListener("click", () => applyLang(b.dataset.langBtn)));
+      let savedLang = "ca";
+      try { savedLang = localStorage.getItem(LANG_KEY) || "ca"; } catch (e) {}
+      applyLang(savedLang);
+
+      const contactForm = document.querySelector("[data-contact-form]");
+      if (contactForm) {
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = contactForm.name.value.trim();
+          const email = contactForm.email.value.trim();
+          const message = contactForm.message.value.trim();
+          const subject = encodeURIComponent(`Contacte web — ${name}`);
+          const body = encodeURIComponent(`${message}\n\n${email}`);
+          window.location.href = `mailto:info@fisioymes.com?subject=${subject}&body=${body}`;
+        });
+      }
 
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!reduce && "IntersectionObserver" in window) {
@@ -312,11 +508,43 @@ const prices = [
     .nav { position: sticky; top: 0; z-index: var(--z-nav); background: transparent; transition: background 0.3s var(--ease-out), border-color 0.3s; border-bottom: 1px solid transparent; }
     .nav.is-stuck { background: color-mix(in oklch, var(--pine-950) 92%, transparent); backdrop-filter: blur(10px); border-color: var(--line-light); }
     .nav__row { display: flex; align-items: center; justify-content: space-between; padding-block: 1.1rem; color: var(--paper); }
-    .nav__links { display: flex; gap: 1.8rem; font-size: var(--step--1); font-weight: 600; }
+    .nav__links { display: flex; align-items: center; gap: 1.8rem; font-size: var(--step--1); font-weight: 600; }
     .nav__links a { opacity: 0.85; transition: opacity 0.2s; }
     .nav__links a:hover { opacity: 1; color: var(--coral); }
     .nav__cta { padding: 0.6rem 1.1rem; font-size: var(--step--1); }
-    @media (max-width: 760px) { .nav__links { display: none; } }
+
+    .lang-toggle { display: flex; align-items: center; gap: 0.3rem; padding-left: 0.6rem; border-left: 1px solid var(--line-light); }
+    .lang-btn { font-family: var(--sans); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.02em; color: inherit; opacity: 0.6; padding: 0.2rem 0.3rem; }
+    .lang-btn[aria-pressed="true"] { opacity: 1; color: var(--coral); }
+    .lang-btn:hover { opacity: 1; }
+
+    .nav__toggle {
+      display: none; flex: none; width: 2.75rem; height: 2.75rem;
+      align-items: center; justify-content: center; color: var(--paper);
+    }
+    .nav__toggle-bar, .nav__toggle-bar::before, .nav__toggle-bar::after {
+      content: ""; display: block; width: 22px; height: 2px; background: currentColor; border-radius: 2px;
+      transition: transform 0.25s var(--ease-out), opacity 0.2s;
+    }
+    .nav__toggle-bar { position: relative; }
+    .nav__toggle-bar::before { position: absolute; top: -7px; left: 0; }
+    .nav__toggle-bar::after { position: absolute; top: 7px; left: 0; }
+    .nav.is-open .nav__toggle-bar { background: transparent; }
+    .nav.is-open .nav__toggle-bar::before { transform: translateY(7px) rotate(45deg); }
+    .nav.is-open .nav__toggle-bar::after { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 760px) {
+      .nav__toggle { display: inline-flex; order: 2; }
+      .nav__cta { order: 3; }
+      .nav__links {
+        display: none; position: absolute; inset-inline: 0; top: 100%;
+        flex-direction: column; align-items: stretch; gap: 0; background: var(--pine-950);
+        padding: 0.3rem var(--gutter) 1.2rem; border-bottom: 1px solid var(--line-light);
+      }
+      .nav__links a { padding-block: 0.95rem; border-top: 1px solid var(--line-light); opacity: 1; }
+      .nav.is-open .nav__links { display: flex; }
+      .lang-toggle { border-left: none; border-top: 1px solid var(--line-light); padding-left: 0; padding-top: 0.9rem; margin-top: 0.3rem; }
+    }
 
     /* ── Hero ──────────────────────────────────────────────── */
     .hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; margin-top: -73px; color: var(--paper); overflow: clip; }
@@ -368,7 +596,7 @@ const prices = [
 
     .treat__list { list-style: none; border-top: 1px solid var(--line-strong); margin-top: 1.4rem; }
     .treat__list li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 1.2rem; align-items: start; padding-block: 1.8rem; border-bottom: 1px solid var(--line); }
-    .treat__mark { width: 22px; height: 14px; margin-top: 0.4rem; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='14' viewBox='0 0 22 14'%3E%3Cpath d='M1 11 Q6 2 11 7 T21 7' fill='none' stroke='%23c9714a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; }
+    .treat__mark { width: 22px; height: 14px; margin-top: 0.4rem; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='14' viewBox='0 0 22 14'%3E%3Cpath d='M1 11 Q6 2 11 7 T21 7' fill='none' stroke='%234880aa' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; }
     .treat__list h3 { font-size: var(--step-1); font-weight: 700; margin-bottom: 0.4rem; }
     .treat__list p { color: var(--muted); max-width: 62ch; }
 
@@ -388,6 +616,12 @@ const prices = [
     .team__list p { color: color-mix(in oklch, var(--paper) 75%, transparent); font-size: var(--step--1); margin-top: 0.2rem; }
     .team__more { margin-top: 1.6rem; font-size: var(--step--1); color: color-mix(in oklch, var(--paper) 65%, transparent); }
 
+    /* ── La Clínica ────────────────────────────────────────── */
+    .clinic { padding-block: clamp(3rem, 7vw, 5rem); }
+    .clinic h2 { font-size: var(--step-4); margin-bottom: 1.2rem; }
+    .clinic__text { font-size: var(--step-1); color: var(--muted); line-height: 1.6; }
+    .clinic__facilities { margin-top: 1.6rem; }
+
     /* ── Opinions ──────────────────────────────────────────── */
     .reviews { padding-block: clamp(4rem, 9vw, 7rem); }
     .reviews__stat { display: flex; align-items: center; gap: 1.4rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
@@ -402,7 +636,8 @@ const prices = [
     /* ── Preus ─────────────────────────────────────────────── */
     .prices { padding-block: clamp(4rem, 9vw, 7rem); background: var(--paper-2); }
     .price-list { list-style: none; border-top: 1px solid var(--line-strong); }
-    .price-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 1.4rem; padding-block: 1.4rem; border-bottom: 1px solid var(--line); }
+    .price-list li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.4rem; padding-block: 1.4rem; border-bottom: 1px solid var(--line); }
+    .price-list li > div { flex: 1 1 200px; }
     .price-list h3 { font-size: var(--step-0); font-weight: 700; }
     .price-list p { color: var(--muted); font-size: var(--step--1); margin-top: 0.2rem; }
     .price-list__p { font-family: var(--display); font-weight: 700; font-size: var(--step-1); color: var(--coral-deep); white-space: nowrap; }
@@ -413,6 +648,17 @@ const prices = [
     .contact__intro h2 { font-size: var(--step-4); }
     .contact__lede { color: var(--muted); font-size: var(--step-1); margin-top: 1.2rem; max-width: 40ch; }
     .contact__wa { margin-top: 2rem; }
+    .contact__divider { display: flex; align-items: center; gap: 0.8rem; margin-block: 1.6rem; color: var(--muted); font-size: var(--step--1); text-transform: uppercase; letter-spacing: 0.08em; }
+    .contact__divider::before, .contact__divider::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
+    .contact__form { display: flex; flex-direction: column; gap: 1rem; max-width: 30rem; }
+    .contact__form .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .contact__form label { font-size: var(--step--1); font-weight: 700; color: var(--pine-700); }
+    .contact__form input, .contact__form textarea {
+      font: inherit; font-size: var(--step--1); padding: 0.75rem 0.9rem; border-radius: var(--radius);
+      border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); resize: vertical;
+    }
+    .contact__form input:focus-visible, .contact__form textarea:focus-visible { outline: 2px solid var(--coral); outline-offset: 1px; }
+    .contact__form button { align-self: flex-start; }
     .contact__info { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; padding: clamp(1.6rem, 3vw, 2.2rem); background: var(--pine-950); color: var(--paper); border-radius: calc(var(--radius) * 3); }
     .contact__info li { font-size: var(--step--1); color: color-mix(in oklch, var(--paper) 85%, transparent); }
     .contact__info span { display: block; font-weight: 700; color: var(--paper); margin-bottom: 0.2rem; }
@@ -423,6 +669,9 @@ const prices = [
     .foot { background: var(--pine-950); color: var(--paper); padding-block: clamp(3rem, 6vw, 4.5rem) 1.6rem; }
     .foot__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--line-light); }
     .foot__tag { margin-top: 0.9rem; color: color-mix(in oklch, var(--paper) 70%, transparent); max-width: 32ch; font-size: var(--step--1); }
+    .foot__social { display: flex; gap: 0.8rem; margin-top: 1.1rem; }
+    .foot__social a { display: inline-flex; width: 2.2rem; height: 2.2rem; align-items: center; justify-content: center; border-radius: 50%; background: color-mix(in oklch, var(--paper) 12%, transparent); color: var(--paper); transition: background 0.2s; }
+    .foot__social a:hover { background: var(--coral); }
     .foot__nav { display: flex; flex-direction: column; gap: 0.7rem; font-size: var(--step--1); }
     .foot__nav a:hover { color: var(--coral); }
     .foot__contact { display: flex; flex-direction: column; gap: 0.9rem; font-size: var(--step--1); color: color-mix(in oklch, var(--paper) 80%, transparent); }
