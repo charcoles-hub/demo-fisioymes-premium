@@ -606,9 +606,10 @@ const i18n = {
 
     /* ── Opinions ──────────────────────────────────────────── */
     .reviews { padding-block: clamp(4rem, 9vw, 7rem); }
-    .reviews__stat { display: flex; justify-content: center; align-items: center; gap: 1.4rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); text-align: left; }
-    .reviews__score { font-family: var(--display); font-weight: 700; font-size: clamp(3.4rem, 8vw, 5.2rem); color: var(--pine-800); line-height: 1; }
-    .reviews__stat p { font-size: var(--step--1); color: var(--muted); margin-top: 0.2rem; }
+    .reviews__stat { display: flex; justify-content: center; align-items: center; gap: 1.8rem; margin-bottom: clamp(3rem, 6vw, 5rem); text-align: left; }
+    .reviews__score { font-family: var(--display); font-weight: 700; font-size: clamp(4.6rem, 11vw, 7.5rem); color: var(--pine-800); line-height: 1; }
+    .reviews__stat .hero__stars { font-size: clamp(1.5rem, 3.2vw, 2rem); }
+    .reviews__stat p { font-size: var(--step-1); font-weight: 600; color: var(--muted); margin-top: 0.4rem; }
     @media (max-width: 480px) { .reviews__stat { flex-wrap: wrap; justify-content: center; text-align: center; } }
     .reviews__list { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.2rem); }
     .reviews__list li { border-top: 2px solid var(--coral); padding-top: 1.2rem; }
