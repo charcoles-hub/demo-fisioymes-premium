@@ -46,12 +46,11 @@ const testimonials = [
 ];
 
 const prices = [
-  { t: "Primera visita i valoració", d: "Anamnesi, exploració i pla de tractament.", p: "des de 45 €" },
-  { t: "Sessió de fisioteràpia general", d: "45–50 minuts.", p: "40–45 €" },
-  { t: "Massatge terapèutic", d: "30 min / 60 min.", p: "30 € / 50 €" },
-  { t: "Fisioteràpia esportiva", d: "Sessió de readaptació o prevenció.", p: "45 €" },
-  { t: "Punció seca / EPI", d: "Com a tècnica afegida a la sessió.", p: "+15 €" },
-  { t: "Pilates terapèutic", d: "Classe solta / bo de 8 classes.", p: "18 € / 130 €" },
+  { t: "Sessió de fisioteràpia", d: "30 minuts.", p: "39 €" },
+  { t: "Sessió de fisioteràpia", d: "50 minuts.", p: "55 €" },
+  { t: "Bo de sessions", d: "3 / 5 / 10 sessions.", p: "-6% / -10% / -15%" },
+  { t: "Pilates individual", d: "1 o 2 classes per setmana.", p: "45 € / 70 € classe" },
+  { t: "Pilates en grup", d: "1 o 2 classes per setmana.", p: "60 € / 90 € mes" },
   { t: "Primera classe de Pilates", d: "Perquè el provis sense compromís.", p: "Gratuïta" },
 ];
 ---
@@ -200,8 +199,8 @@ const prices = [
     <section class="prices" id="preus" aria-labelledby="prices-h">
       <div class="wrap">
         <header class="sec-head" data-reveal>
-          <h2 id="prices-h">Preus orientatius</h2>
-          <p>Perquè puguis fer-te una idea abans de trucar. <strong>Es confirmen a la primera visita</strong> segons cada cas.</p>
+          <h2 id="prices-h">Preus</h2>
+          <p>Les nostres tarifes, clares des del primer dia. <strong>Descomptes per bo de sessions</strong> si fas seguiment continuat.</p>
         </header>
         <ul class="price-list">
           {prices.map((row) => (
